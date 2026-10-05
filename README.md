@@ -41,7 +41,7 @@ convertifty/
 │   │   │   ├── converter/      # Workspace, progress stepper, image tuning
 │   │   │   ├── diagnostics/    # Real-time engine health drawer
 │   │   │   ├── format-selector/# Searchable format modal with categories
-│   │   │   ├── layout/         # Header, footer, notice banner
+│   │   │   ├── layout/         # Header, footer, 
 │   │   │   ├── result/         # Download actions & interactive preview
 │   │   │   └── uploader/       # Drag-and-drop dropzone with 500MB validation
 │   │   ├── lib/                # API client & byte formatters

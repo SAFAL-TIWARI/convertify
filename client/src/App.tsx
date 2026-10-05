@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Header } from './components/layout/Header.js';
 import { Footer } from './components/layout/Footer.js';
-import { NoticeBanner } from './components/layout/NoticeBanner.js';
 import { HowItWorks } from './components/layout/HowItWorks.js';
 import { FileDropzone } from './components/uploader/FileDropzone.js';
 import { ConversionWorkspace } from './components/converter/ConversionWorkspace.js';
@@ -177,9 +176,6 @@ export function App() {
         className="hidden"
         onChange={handleHiddenFileInputChange}
       />
-
-      {/* Top Notice Banner */}
-      <NoticeBanner />
 
       {/* Primary Header */}
       <Header
