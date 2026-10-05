@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import mammoth from 'mammoth';
+import xlsx from 'xlsx';
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import {
   ConversionJobResult,
   JobStatus,
@@ -149,17 +152,8 @@ export class JobManager {
       // Determine output MIME
       const outMime = this.getMimeForExtension(cleanTargetExt);
 
-      // Extract lightweight preview snippet if text/document
-      let textSnippet: string | undefined;
-      const textLikeFormats = ['txt', 'md', 'html', 'json', 'csv'];
-      if (textLikeFormats.includes(cleanTargetExt)) {
-        try {
-          const slice = await fs.promises.readFile(outputFilePath, 'utf8');
-          textSnippet = slice.slice(0, 1500);
-        } catch {
-          // ignore
-        }
-      }
+      // Extract preview snippet across document, text, spreadsheet, and PDF outputs
+      const textSnippet = await this.extractOutputSnippet(outputFilePath, cleanTargetExt);
 
       record.status = 'COMPLETED';
       record.stageMessage = 'Ready';
@@ -214,6 +208,46 @@ export class JobManager {
       avif: 'image/avif',
     };
     return map[ext.toLowerCase()] || 'application/octet-stream';
+  }
+
+  private async extractOutputSnippet(filePath: string, format: string): Promise<string | undefined> {
+    const norm = format.toLowerCase().replace(/^\./, '');
+    try {
+      if (['txt', 'md', 'html', 'json', 'csv'].includes(norm)) {
+        const slice = await fs.promises.readFile(filePath, 'utf8');
+        return slice.slice(0, 3000);
+      }
+      if (norm === 'docx') {
+        const result = await mammoth.extractRawText({ path: filePath });
+        return result.value ? result.value.slice(0, 3000) : undefined;
+      }
+      if (norm === 'xlsx' || norm === 'xls') {
+        const wb = xlsx.readFile(filePath);
+        const sheetName = wb.SheetNames[0];
+        if (sheetName) {
+          const sheet = wb.Sheets[sheetName];
+          const csv = xlsx.utils.sheet_to_csv(sheet);
+          return csv.slice(0, 3000);
+        }
+      }
+      if (norm === 'pdf') {
+        const buf = await fs.promises.readFile(filePath);
+        const loadingTask = pdfjsLib.getDocument({
+          data: new Uint8Array(buf),
+          useSystemFonts: true,
+        });
+        const pdf = await loadingTask.promise;
+        const page1 = await pdf.getPage(1);
+        const content = await page1.getTextContent();
+        const strings = content.items
+          .map((i: any) => i.str || '')
+          .filter(Boolean);
+        return strings.join(' ').slice(0, 3000);
+      }
+    } catch (err) {
+      console.warn('[JobManager] Preview snippet extraction error:', err);
+    }
+    return undefined;
   }
 
   private toPublicResult(record: InternalJobRecord): ConversionJobResult {

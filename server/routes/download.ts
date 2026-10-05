@@ -43,10 +43,12 @@ previewRouter.get('/:jobId', (req: Request, res: Response) => {
     return;
   }
 
-  const { filePath, mimeType } = job.output;
+  const { filePath, filename, mimeType } = job.output;
 
   res.setHeader('Content-Type', mimeType || 'application/octet-stream');
-  res.setHeader('Content-Disposition', 'inline');
+  res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(filename)}"`);
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
 
   const fileStream = fs.createReadStream(filePath);
   fileStream.pipe(res);
