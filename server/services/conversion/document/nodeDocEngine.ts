@@ -69,7 +69,7 @@ export class NodeDocumentEngine implements ConversionEngine {
         if (normIn === 'html') {
           content = content.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ');
         }
-        await this.convertTextToPdf(content, outputPath, normIn.toUpperCase());
+        await this.convertTextToPdf(content, outputPath);
         return this.verifyOutput(outputPath);
       }
 
@@ -118,7 +118,7 @@ ${result.value}
       // 6. DOCX -> PDF (Text reconstruction when LibreOffice is not installed)
       if (normIn === 'docx' && normOut === 'pdf') {
         const result = await mammoth.extractRawText({ path: inputPath });
-        await this.convertTextToPdf(result.value, outputPath, 'DOCX Content');
+        await this.convertTextToPdf(result.value, outputPath);
         return this.verifyOutput(outputPath);
       }
 
@@ -242,7 +242,7 @@ ${result.value}
     }
   }
 
-  private async convertTextToPdf(text: string, outputPath: string, docTitle = 'Document'): Promise<void> {
+  private async convertTextToPdf(text: string, outputPath: string): Promise<void> {
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -252,7 +252,7 @@ ${result.value}
     const pageWidth = 595.28; // Standard A4 points
     const pageHeight = 841.89;
     const printableWidth = pageWidth - margin * 2;
-    const maxLinesPerPage = Math.floor((pageHeight - margin * 2 - 40) / lineHeight);
+    const maxLinesPerPage = Math.floor((pageHeight - margin * 2 - 20) / lineHeight);
 
     // Split text into words and wrap lines
     const rawLines = text.split(/\r?\n/);
@@ -291,17 +291,7 @@ ${result.value}
       const page = pdfDoc.addPage([pageWidth, pageHeight]);
       let y = pageHeight - margin;
 
-      // Header on first page
-      if (pageNum === 1) {
-        page.drawText(docTitle, {
-          x: margin,
-          y,
-          size: 14,
-          font: fontBold,
-          color: rgb(0.015, 0.4, 0.204), // #046634 HH Goa green
-        });
-        y -= 25;
-      }
+      // Draw lines directly without injecting any format title on top
 
       // Draw lines
       let linesOnPage = 0;
@@ -332,8 +322,8 @@ ${result.value}
         linesOnPage++;
       }
 
-      // Subtle footer
-      page.drawText(`Convertify • Page ${pageNum} of ${totalPages}`, {
+      // Subtle page number
+      page.drawText(`Page ${pageNum} of ${totalPages}`, {
         x: margin,
         y: margin - 20,
         size: 8,
