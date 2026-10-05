@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+dist
+dist-server
+build
+.cache
+
+# Temporary & conversion files
+temp/*
+!temp/.gitkeep
+uploads/*
+outputs/*
+*.log
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db

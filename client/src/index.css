@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color: #111111;
+    background-color: #f7f1dc;
+  }
+
+  /* Custom scrollbar matching HH Goa aesthetic */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f0ead2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #046634;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #033e22;
+  }
+}
+
+/* Subtle editorial paper texture / fine dot grid */
+.hh-pattern {
+  background-image: radial-gradient(#111111 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+}
+
+.hh-pattern-light {
+  background-image: radial-gradient(rgba(4, 102, 52, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Editorial rule lines */
+.hh-rule {
+  border-color: #111111;
+  border-bottom-width: 1px;
+}
+
+/* Monospace technical styling */
+.font-technical {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  letter-spacing: -0.02em;
+}
