@@ -24,7 +24,7 @@ import {
   ImageConversionOptions,
   ConversionJobResult,
   DiagnosticsResponse,
-} from '../shared/types/index.js';
+} from '@shared/types/index.js';
 import { getFileExtension } from './lib/formatUtils.js';
 
 export function App() {

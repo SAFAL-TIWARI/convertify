@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, RefreshCw, ArrowRight, FileCheck, CheckCircle2 } from 'lucide-react';
-import { ConversionJobResult } from '../../../shared/types/index.js';
+import { ConversionJobResult } from '@shared/types/index.js';
 import { formatBytes } from '../../lib/formatUtils.js';
 import { FilePreview } from './FilePreview.js';
 

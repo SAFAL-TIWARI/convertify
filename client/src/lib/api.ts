@@ -5,7 +5,7 @@ import {
   FileCategory,
   ConversionJobResult,
   ImageConversionOptions,
-} from '../../../shared/types/index.js';
+} from '@shared/types/index.js';
 
 export interface CatalogResponse {
   activeCategories: FileCategory[];

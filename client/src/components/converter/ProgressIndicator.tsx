@@ -1,5 +1,5 @@
 import React from 'react';
-import { JobStatus } from '../../../shared/types/index.js';
+import { JobStatus } from '@shared/types/index.js';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface ProgressIndicatorProps {

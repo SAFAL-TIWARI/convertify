@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, RefreshCw, ArrowRight, FileText, Image as ImageIcon, FileCode, Check } from 'lucide-react';
-import { FormatDefinition, ImageConversionOptions, JobStatus } from '../../../shared/types/index.js';
+import { FormatDefinition, ImageConversionOptions, JobStatus } from '@shared/types/index.js';
 import { formatBytes, getFileExtension } from '../../lib/formatUtils.js';
 import { ImageOptionsPanel } from './ImageOptionsPanel.js';
 import { FormatSelectorModal } from '../format-selector/FormatSelectorModal.js';

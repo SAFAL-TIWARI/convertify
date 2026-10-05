@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { fileTypeFromFile } from 'file-type';
+import { fileTypeFromBuffer } from 'file-type';
 import { CONFIG } from '../../config.js';
 
 export interface ValidationSuccess {
@@ -68,8 +68,14 @@ export async function validateUploadedFile(
       };
     }
 
-    // 3. Binary Magic Byte Validation where available
-    const detected = await fileTypeFromFile(filePath);
+    // 3. Binary Magic Byte Validation: read up to 8KB header efficiently
+    const sampleSize = Math.min(8192, stats.size);
+    const fd = await fs.promises.open(filePath, 'r');
+    const headerBuffer = Buffer.alloc(sampleSize);
+    await fd.read(headerBuffer, 0, sampleSize, 0);
+    await fd.close();
+
+    const detected = await fileTypeFromBuffer(headerBuffer);
 
     let finalFormat = ext;
     let finalMime = claimedMimeType || 'application/octet-stream';

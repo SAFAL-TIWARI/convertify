@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, CheckCircle, AlertTriangle, Clock, RefreshCw, Terminal, ExternalLink } from 'lucide-react';
-import { DiagnosticsResponse } from '../../../shared/types/index.js';
+import { DiagnosticsResponse } from '@shared/types/index.js';
 
 interface DiagnosticsDrawerProps {
   isOpen: boolean;

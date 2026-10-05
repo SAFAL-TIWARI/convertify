@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, X, Lock, Check } from 'lucide-react';
-import { FormatDefinition, FileCategory } from '../../../shared/types/index.js';
+import { FormatDefinition, FileCategory } from '@shared/types/index.js';
 
 interface FormatSelectorModalProps {
   isOpen: boolean;

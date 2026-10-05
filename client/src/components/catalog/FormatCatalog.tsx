@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Lock, Sparkles, Layers, FileCheck } from 'lucide-react';
-import { FormatDefinition, ConversionPair, FileCategory } from '../../../shared/types/index.js';
+import { FormatDefinition, ConversionPair, FileCategory } from '@shared/types/index.js';
 import { WaveMotif } from '../common/TropicalMotif.js';
 
 interface FormatCatalogProps {
@@ -176,7 +176,7 @@ export const FormatCatalog: React.FC<FormatCatalogProps> = ({
                     </span>
                   ) : fmt.outputs.length > 0 ? (
                     <div className="flex flex-wrap gap-1">
-                      {fmt.outputs.map((out) => (
+                      {fmt.outputs.map((out: string) => (
                         <span
                           key={out}
                           className="px-1.5 py-0.5 bg-hh-cream-light border border-hh-border text-[10px] font-technical uppercase text-hh-black font-medium"

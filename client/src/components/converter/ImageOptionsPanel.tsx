@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sliders, Lock, Unlock } from 'lucide-react';
-import { ImageConversionOptions } from '../../../shared/types/index.js';
+import { ImageConversionOptions } from '@shared/types/index.js';
 
 interface ImageOptionsPanelProps {
   options: ImageConversionOptions;
